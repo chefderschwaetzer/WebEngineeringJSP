@@ -18,11 +18,9 @@ function addBet(amount) {
     })
     .then(response => response.json())
     .then(data => {
-		console.log(data);
-        y = data.currentBet;
-        localStorage.setItem("bet", y);
+        localStorage.setItem("bet", data.currentBet);
         localStorage.setItem("coins", data.totalMoney)
-        document.getElementById("message2").innerHTML = "Now Betting: " + y + " Coins";
+        document.getElementById("message2").innerHTML = "Now Betting: " + data.currentBet + " Coins";
         document.getElementById("message1").innerHTML = "Money: " + localStorage.getItem("coins") + " Coins";
     })
     .catch(error => console.error('Error:', error));
@@ -38,10 +36,9 @@ function resetBet() {
     })
     .then(response => response.json())
     .then(data => {
-        y = data.currentBet;
         localStorage.setItem("coins", data.totalMoney);
-        localStorage.setItem("bet", parseInt(y))
-        document.getElementById("message2").innerHTML = "Now Betting: " + y + " Coins";
+        localStorage.setItem("bet", data.currentBet)
+        document.getElementById("message2").innerHTML = "Now Betting: " + data.currentBet + " Coins";
         document.getElementById("message1").innerHTML = "Money: " + localStorage.getItem("coins") + " Coins";
     })
     .catch(error => console.error('Error:', error));
@@ -57,6 +54,11 @@ function gamble() {
 
 	if(y > x){
 		document.getElementById("status").innerHTML = "Not enough funds."
+		y = 0;
+		document.getElementById("message2").innerHTML =  "Now Betting: €" + y
+		action = false;
+	} else if (y == 0){
+		document.getElementById("status").innerHTML = "You need to bet first."
 		y = 0;
 		document.getElementById("message2").innerHTML =  "Now Betting: €" + y
 		action = false;
@@ -112,13 +114,13 @@ function gamble() {
         		headers: {
             	"Content-Type": "application/x-www-form-urlencoded"
         	},
-        		body: "action=gamble&result=" + y + "&pattern=" + pattern
+        		body: "action=gamble&pattern=" + pattern + "&currentBet=" + localStorage.getItem("bet") + "&totalMoney=" + localStorage.getItem("coins")
     		})
     		.then(response => response.json())
     		.then(data => {
-        		x = data.totalMoney;
-        		document.getElementById("message1").innerHTML = "Money: " + x + " Coins";
-        		localStorage.setItem("totalMoney", x + parseInt(localStorage.getItem("bet")))
+        		localStorage.setItem("coins", data.totalMoney)
+        		console.log(localStorage.getItem("coins"));
+        		document.getElementById("message1").innerHTML = "Money: " + parseInt(localStorage.getItem("coins")) + " Coins";
         		action = false;
     		})
     		.catch(error => console.error('Error:', error));

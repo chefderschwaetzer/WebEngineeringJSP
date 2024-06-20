@@ -13,7 +13,7 @@ public class GameStats {
     	this.totalMoney = 0;
     	this.currentBet = 0;
         this.currentBet += currentBet + amount;
-        this.totalMoney = totalMoney - amount;
+        this.totalMoney = totalMoney;
         return this.currentBet;
     }
 
@@ -24,15 +24,21 @@ public class GameStats {
 
     public int resetTotal(int currentBet, int totalMoney) {
     	this.totalMoney = 0;
-        this.totalMoney = currentBet + totalMoney;
+        this.totalMoney = totalMoney;
         return this.totalMoney;
     }
 
-    public void addResult(int pattern) {
-        this.totalMoney += calcSlotMachineWin(pattern);
+    public void addResult(int pattern, int currentBet, int totalMoney) {
+    	this.totalMoney = 0;
+    	var test = calcSlotMachineWin(pattern, currentBet);
+    	if (test == 0) {
+    		this.totalMoney = totalMoney - currentBet;
+		} else {
+        	this.totalMoney = totalMoney + test + currentBet;
+		}
     }
 
-    public int calcSlotMachineWin(int pattern) {
+    public int calcSlotMachineWin(int pattern, int currentBet) {
         int winAmount = 0;
         switch (pattern) {
             case 1:
@@ -45,9 +51,6 @@ public class GameStats {
                 winAmount = 50;
                 break;
             case 4:
-                winAmount = 0;
-                break;
-            default:
                 winAmount = 0;
                 break;
         }

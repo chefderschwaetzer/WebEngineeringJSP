@@ -36,7 +36,9 @@ public class CoinServlet extends HttpServlet {
             gameStats.resetBet();
         } else if ("gamble".equals(action)) {
             int pattern = Integer.parseInt(request.getParameter("pattern"));
-            gameStats.addResult(pattern);
+            int currentBet = Integer.parseInt(request.getParameter("currentBet"));
+            int totalMoney = Integer.parseInt(request.getParameter("totalMoney"));
+            gameStats.addResult(pattern, currentBet, totalMoney);
         }
 
         response.setContentType("application/json");
