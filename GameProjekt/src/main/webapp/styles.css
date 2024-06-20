@@ -12,6 +12,7 @@
         .game {
             margin: 20px;
             cursor: pointer;
+            float: left;
         }
         .game img {
             width: 200px;
