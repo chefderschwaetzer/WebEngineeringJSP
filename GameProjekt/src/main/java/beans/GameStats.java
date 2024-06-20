@@ -1,16 +1,66 @@
 package beans;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GameStats {
-    private int totalMoney;
     private int currentBet;
-    private List<Integer> results;
+    private int totalMoney;
 
     public GameStats() {
         this.currentBet = 0;
-        this.results = new ArrayList<>();
+        this.totalMoney = 0;
+    }
+
+    public int addBett(int currentBet, int amount, int totalMoney) {
+    	this.totalMoney = 0;
+    	this.currentBet = 0;
+        this.currentBet += currentBet + amount;
+        this.totalMoney = totalMoney - amount;
+        return this.currentBet;
+    }
+
+    public int resetBet() {
+        this.currentBet = 0;
+        return this.currentBet;
+    }
+
+    public int resetTotal(int currentBet, int totalMoney) {
+    	this.totalMoney = 0;
+        this.totalMoney = currentBet + totalMoney;
+        return this.totalMoney;
+    }
+
+    public void addResult(int pattern) {
+        this.totalMoney += calcSlotMachineWin(pattern);
+    }
+
+    public int calcSlotMachineWin(int pattern) {
+        int winAmount = 0;
+        switch (pattern) {
+            case 1:
+                winAmount = 250;
+                break;
+            case 2:
+                winAmount = 100;
+                break;
+            case 3:
+                winAmount = 50;
+                break;
+            case 4:
+                winAmount = 0;
+                break;
+            default:
+                winAmount = 0;
+                break;
+        }
+        return winAmount;
+    }
+
+    // Getters and Setters
+    public int getCurrentBet() {
+        return currentBet;
+    }
+
+    public void setCurrentBet(int currentBet) {
+        this.currentBet = currentBet;
     }
 
     public int getTotalMoney() {
@@ -20,36 +70,13 @@ public class GameStats {
     public void setTotalMoney(int totalMoney) {
         this.totalMoney = totalMoney;
     }
-
-    public int getCurrentBet() {
-        return currentBet;
-    }
-
-    public void setCurrentBet(int currentBet) {
-        this.currentBet = currentBet;
-    }
-
-    public List<Integer> getResults() {
-        return results;
-    }
-
-    public void addResult(int result) {
-        results.add(result);
-    }
     
     public String toJson() {
         StringBuilder json = new StringBuilder();
         json.append("{");
         json.append("\"totalMoney\":").append(totalMoney).append(",");
-        json.append("\"currentBet\":").append(currentBet).append(",");
-        json.append("\"results\":[");
-        for (int i = 0; i < results.size(); i++) {
-            json.append(results.get(i));
-            if (i < results.size() - 1) {
-                json.append(",");
-            }
-        }
-        json.append("]}");
+        json.append("\"currentBet\":").append(currentBet);
+        json.append("}");
         return json.toString();
     }
 }

@@ -25,19 +25,18 @@ public class CoinServlet extends HttpServlet {
         if ("addBet".equals(action)) {
             int amount = Integer.parseInt(request.getParameter("amount"));
             int totalMoney = Integer.parseInt(request.getParameter("totalMoney"));
-            gameStats.setTotalMoney(totalMoney);
-            if (totalMoney >= amount) {
-                gameStats.setCurrentBet(gameStats.getCurrentBet() + amount);
+            int currentBet = Integer.parseInt(request.getParameter("currentBet"));
+            if (totalMoney >= amount + currentBet) {
+            	gameStats.addBett(currentBet, amount, totalMoney);
             }
         } else if ("resetBet".equals(action)) {
-            gameStats.setCurrentBet(0);
+            int currentBet = Integer.parseInt(request.getParameter("currentBet"));
+            int totalMoney = Integer.parseInt(request.getParameter("totalMoney"));
+            gameStats.resetTotal(currentBet, totalMoney);
+            gameStats.resetBet();
         } else if ("gamble".equals(action)) {
-            int result = Integer.parseInt(request.getParameter("result"));
-            gameStats.addResult(result);
-            gameStats.setTotalMoney(gameStats.getTotalMoney() - result);
-            if (gameStats.getTotalMoney() < 0) {
-                gameStats.setTotalMoney(0);
-            }
+            int pattern = Integer.parseInt(request.getParameter("pattern"));
+            gameStats.addResult(pattern);
         }
 
         response.setContentType("application/json");
