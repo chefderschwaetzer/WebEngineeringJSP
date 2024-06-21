@@ -19,8 +19,8 @@
             <img src="./images/icons/blackjack.jpg" alt="Spiel 2" style="width: 300px; height: auto">
             <p>Black Jack</p>
         </div>
-        <div class="game" onclick="window.location.href='./roulette/minispiel3.jsp'">
-            <img src="images/icons/roulette.jpg" alt="Spiel 3" style="width: 300px; height: auto">
+        <div class="game" onclick="window.location.href='./roulette/roulette.jsp'">
+            <img src="./images/icons/roulette.png" alt="Spiel 3"  style="width: 300px; height: auto">
             <p>Roulette</p>
         </div>
         <div class="game" onclick="window.location.href='./spinningWheel/minispiel4.jsp'">
